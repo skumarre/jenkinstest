@@ -1,10 +1,18 @@
 pipeline{
-    agent any
-    stages{
-        stage("sample stage"){
-        steps{
-         git credentialsId: 'skumarre', url: 'https://github.com/skumarre/jenkinstest/'
-        }
-      }
-    }
+   agent any
+   environment{
+	PATH=/opt/apache-maven-3.5.4/bin:$PATH
+}
+   stages{
+     stage("git checkout"){
+	steps{
+git credentialsId: 'skumarre', url: 'https://github.com/skumarre/jenkinstest/'
+	}
+ 	stage("maven bulid"){
+      steps{
+         sh "mvn clean package"
+       } 
+      }   
+     }	
+   }
 }
